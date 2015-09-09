@@ -1,0 +1,6 @@
+{
+  "name": "OpenTok Node.js Sample",
+  "description": "A Node.js app using OpenTok",
+  "repository": "https://github.com/jeffswartz/opentok-node-samples",
+  "keywords": ["node", "opentok"]
+}

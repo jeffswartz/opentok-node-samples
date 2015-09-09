@@ -1,0 +1,28 @@
+{
+  "name": "node-js-sample",
+  "version": "0.0.0",
+  "description": "A sample Node.js app using OpenTok",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.0.0",
+    "ejs": "^0.8.6",
+    "opentok": "^2.3.0"
+  },
+  "engines": {
+    "node": "0.12.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-sample"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "author": "Jeff Swartz",
+  "license": "MIT"
+}
