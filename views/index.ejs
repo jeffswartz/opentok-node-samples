@@ -3,16 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <title>OpenTok Hello World</title>
+    <link href="/css/helloworld.css" rel="stylesheet" type="text/css">
     <script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>
     <script type="text/javascript">
         var apiKey = '<%= apiKey %>';
         var sessionId = '<%= sessionId %>';
         var token = '<%= token %>';
     </script>
-    <script src="/js/helloworld.js"></script>
 </head>
 <body>
     <div id="publisher"></div>
     <div id="subscribers"></div>
+    <script src="/js/helloworld.js"></script>
 </body>
 </html>
