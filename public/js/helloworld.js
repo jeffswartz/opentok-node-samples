@@ -1,5 +1,5 @@
-var session = TB.initSession(sessionId);
-var publisher = TB.initPublisher(apiKey, 'publisher');
+var session = OT.initSession(sessionId);
+var publisher = OT.initPublisher(apiKey, 'publisher');
 
 session.on({
   sessionConnected: function(event) {
