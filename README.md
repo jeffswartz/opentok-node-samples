@@ -6,8 +6,8 @@ Some fully functioning OpenTok samples using Node and Express
 Make sure you have Node.js installed.
 
 ```sh
-git clone git@github.com:heroku/node-js-sample.git # or clone your own fork
-cd node-js-sample
+git clone git@github.com:jeffswartz/opentok-node-samples.git # or clone your own fork
+cd opentok-node-samples
 npm install
 ```
 
