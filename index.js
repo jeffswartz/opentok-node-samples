@@ -1,10 +1,12 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
-    OpenTok = require('opentok');
+  basicAuth = require('basic-auth'),
+  bodyParser = require('body-parser'),
+  OpenTok = require('opentok');
 
 var apiKey = process.env.API_KEY;
 var apiSecret = process.env.API_SECRET;
 var sessionId;
+var instructor;
 
 if (!apiKey || !apiSecret) {
   console.log('You must specify API_KEY and API_SECRET environment variables');
@@ -13,6 +15,30 @@ if (!apiKey || !apiSecret) {
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
+
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  };
+
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  };
+
+  if (user.name === 'instructor' && user.pass === 'password') {
+    instructor = true;
+    return next();
+  } else if (user.name === 'student' && user.pass === 'password') {
+    instructor = false;
+    return next();
+  } else {
+    return unauthorized(res);
+  };
+};
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -25,14 +51,18 @@ opentok.createSession({ mediaMode: 'routed' }, function(err, session) {
   init();
 });
 
-app.get('/', function(req, res) {
+app.get('/', auth, function(req, res) {
   sessionId =  app.get('sessionId'),
-      token = opentok.generateToken(sessionId);
+  token = opentok.generateToken(sessionId, {
+    role: instructor ? 'moderator' : '',
+    data: instructor ? 'instructor' : ''
+  });
 
   res.render('index.ejs', {
     apiKey: apiKey,
     sessionId: sessionId,
-    token: token
+    token: token,
+    instructor: instructor
   });
 });
 
