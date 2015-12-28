@@ -54,7 +54,7 @@ opentok.createSession({ mediaMode: 'routed' }, function(err, session) {
 app.get('/', auth, function(req, res) {
   sessionId =  app.get('sessionId'),
   token = opentok.generateToken(sessionId, {
-    role: instructor ? 'moderator' : '',
+    role: instructor ? 'moderator' : 'publisher',
     data: instructor ? 'instructor' : ''
   });
 
@@ -75,12 +75,6 @@ app.get('/download/:archiveId', function(req, res) {
 });
 
 app.post('/start', function(req, res) {
-  /*
-  var hasAudio = (req.param('hasAudio') !== undefined);
-  var hasVideo = (req.param('hasVideo') !== undefined);
-  var outputMode = req.param('outputMode');
-  console.log('apiKey', apiKey);
-  */
   opentok.startArchive(app.get('sessionId'), {
     name: 'Node Archiving Sample App'
   }, function(err, archive) {

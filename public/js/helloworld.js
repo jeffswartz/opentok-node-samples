@@ -1,19 +1,51 @@
+var layoutManager = require('opentok-layout-js');
+
 var archiveId;
-var session = TB.initSession(sessionId);
-var publisher = TB.initPublisher(apiKey, 'publisher');
+var session = OT.initSession(sessionId);
+
+var layout = layoutManager.initLayoutContainer(document.getElementById('videos'), {
+  bigClass: "OT_big",
+  bigPercentage: 0.8
+});
+var otVideoOptions = {insertMode: 'append', fitMode: 'contain', width: '100%', height: '100%'};
+$('#videos').append('<div id="instructorContainer"></div>');
+if (instructor) {
+  $('#instructorContainer').addClass('OT_big');
+}
+var publisher = OT.initPublisher('instructorContainer', otVideoOptions);
+layout.layout();
 
 session.on({
   sessionConnected: function(event) {
     session.publish(publisher);
-    $('#startArchive').show();
+    if (instructor) {
+      $('#startArchive').show();
+    }
   },
   streamCreated: function(event) {
-    var subOptions = {insertMode: 'append'};
-    session.subscribe(event.stream, 'subscribers', subOptions);
+    var $subscriberContainer = $('<div id="subscriber-' + event.stream.streamId + '"></div>').appendTo('#videos')
+    if (event.stream.connection.data === 'instructor' && $('.OT_big').length === 0) {
+      $subscriberContainer.addClass('OT_big');
+    }
+    session.subscribe(event.stream, $subscriberContainer[0], otVideoOptions);
+    layout.layout();
+  },
+  streamDestroyed: function(event) {
+    layout.layout();
   },
   archiveStarted: function(event) {
     archiveId = event.id;
+  },
+  archiveStopped: function(event) {
+    if (instructor) {
+      $('#viewArchive').show();
+    }
   }
+});
+
+$(window).resize(function() {
+  $( "#videos" ).width($(window).width()).height($(window).height());
+  layout.layout();
 });
 
 session.connect(apiKey, token);
@@ -30,8 +62,10 @@ $('#startArchive').click(function() {
       console.log('startArchive POST failed.', responseData, textStatus, errorThrown);
     }
   });
-  $('#startArchive').hide();
-  $('#stopArchive').show();
+  if (instructor) {
+    $('#startArchive').hide();
+    $('#stopArchive').show();
+  }
 });
 
 $('#stopArchive').click(function() {
@@ -46,4 +80,8 @@ $('#stopArchive').click(function() {
     }
   });
   $('#stopArchive').hide();
+});
+$('#viewArchive').click(function() {
+  window.open('/download/' + archiveId);
+  $('#viewArchive').hide();
 });
