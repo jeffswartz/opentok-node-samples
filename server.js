@@ -100,7 +100,8 @@ app.get('/stop/:archiveId', function(req, res) {
 });
 
 function init() {
-  app.listen(5000, function() {
-    console.log('You\'re app is now ready at http://localhost:5000/');
+  var port = process.env.PORT || 3000;
+  app.listen(port, function() {
+    console.log('You\'re app is now ready at http://localhost:' + port + '/');
   });
 }

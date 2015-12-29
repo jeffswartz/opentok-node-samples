@@ -31,7 +31,7 @@ Then run:
 npm start
 ```
 
-The app runs on [localhost:5000](http://localhost:5000/).
+The app runs on [localhost:3000](http://localhost:3000/).
 
 Currently, the log-in user name and password are hardcoded in the index.js file:
 
