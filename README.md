@@ -53,7 +53,7 @@ Heroku is a PaaS (Platform as a Service) that can be used to deploy simple and s
 for free. To easily deploy this repository to Heroku, sign up for a Heroku account and click this
 button:
 
-<a href="https://heroku.com/deploy?template=https://github.com/opentok/learning-opentok-php" target="_blank">
+<a href="https://heroku.com/deploy?template=https://github.com/jeffswartz/opentok-node-samples/tree/online-course" target="_blank">
   <img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy">
 </a>
 
