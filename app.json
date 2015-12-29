@@ -1,6 +1,19 @@
 {
-  "name": "OpenTok Node.js Sample",
-  "description": "A Node.js app using OpenTok",
+  "name": "OpenTok Node.js Classroom App",
+  "description": "A sample Node.js classroom app using OpenTok",
   "repository": "https://github.com/jeffswartz/opentok-node-samples",
-  "keywords": ["node", "opentok"]
+  "keywords": ["node", "opentok"],
+  "env": {
+    "API_KEY": {
+      "description": "Your OpenTok API key. See dashboard.tokbox.com."
+    },
+    "API_SECRET": {
+      "description": "Your OpenTok API secret. See dashboard.tokbox.com."
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/stomita/heroku-buildpack-nodejs"
+    }
+  ]
 }
