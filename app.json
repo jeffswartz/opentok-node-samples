@@ -2,5 +2,19 @@
   "name": "OpenTok Node.js Sample",
   "description": "A Node.js app using OpenTok",
   "repository": "https://github.com/jeffswartz/opentok-node-samples",
-  "keywords": ["node", "opentok"]
+  "keywords": ["node", "opentok"],
+  "env": {
+    "API_KEY": {
+      "description": "OpenTok API key: Login to the TokBox Dashboard (https://dashboard.tokbox.com/keys) to get this value",
+      "required": true
+    },
+    "API_SECRET": {
+      "description": "OpenTok API secret: Login to the TokBox Dashboard (https://dashboard.tokbox.com/keys) to get this value",
+      "required": true
+    },
+    "SLIM_MODE": {
+      "description": "Leave this value set to \"production\" when deploying to Heroku",
+      "value": "production"
+    }
+  }
 }
