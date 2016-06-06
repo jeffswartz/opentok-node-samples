@@ -29,6 +29,6 @@ The app runs on [localhost:5000](http://localhost:8080/).
 
 ## Heroku
 
-<a href="https://heroku.com/deploy?template=https://github.com/swartz/opentok-node-samples/tree/screensharing" target="_blank">
+<a href="https://heroku.com/deploy?template=https://github.com/jeffswartz/opentok-node-samples/tree/screensharing" target="_blank">
   <img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy">
 </a>
