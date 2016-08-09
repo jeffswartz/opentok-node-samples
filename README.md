@@ -26,3 +26,14 @@ npm start
 ```
 
 The app runs on [localhost:5000](http://localhost:5000/).
+
+## Testing the broadcast layout class sample
+
+1. Open one (and only one) browser client on
+   [localhost:5000/main](http://localhost:5000/main).
+
+2. Open other browser clients on
+  [localhost:5000/main](http://localhost:5000/main).
+
+Before starting the app, you can configure the layout to be used by setting
+the `LAYOUT_TYPE` property in the index.js file.

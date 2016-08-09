@@ -3,16 +3,27 @@
 <head>
     <meta charset="utf-8" />
     <title>OpenTok Hello World</title>
-    <script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/<%= layoutType %>.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    <script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>
     <script type="text/javascript">
         var apiKey = '<%= apiKey %>';
         var sessionId = '<%= sessionId %>';
         var token = '<%= token %>';
+        var layoutType = '<%= layoutType %>';
     </script>
-    <script src="/js/helloworld.js"></script>
 </head>
 <body>
-    <div id="publisher"></div>
-    <div id="subscribers"></div>
+  <div id="class-selector">
+    <b>Select the layout type:</b>
+      <input type="radio" name="layout-css" value="pip" onclick="setCSS('pip')">
+      Picture-in-Picture
+      <input type="radio" name="layout-css" value="horizontalpresentation" onclick="setCSS('horizontalpresentation')"> Horizontal Presentation
+      <input type="radio" name="layout-css" value="verticalpresentation" onclick="setCSS('verticalpresentation')"> Vertical Presentation
+      <input type="radio" name="layout-css" value="bestfit" onclick="setCSS('bestfit')"> Best Fit
+  </div>
+  <div id="video-container">
+  </div>
+  <script src="/js/helloworld.js"></script>
 </body>
 </html>
