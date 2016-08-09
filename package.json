@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "^4.0.0",
     "ejs": "^0.8.6",
+    "request": "^2.74.0",
     "opentok": "^2.4.0-beta.1"
   },
   "engines": {

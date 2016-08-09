@@ -14,9 +14,23 @@ session.on({
     var publisherContainer = createStreamContainer();
     if(session.connection.data === 'main') {
       publisherContainer.className = 'stream full focus';
+      $('#class-selector').show();
     }
     var publisher = OT.initPublisher(apiKey, publisherContainer, options);
-    publisher = session.publish(publisher);
+    publisher = session.publish(publisher, () => {
+      if (session.connection.data === 'main') {
+        $.get('/broadcast/', function(data) {
+          console.log('The broadcast is started. Wait 20 seconds, then open this up in Safari: ', data);
+        })
+        .fail(function() {
+          console.log('start broadcast error');
+        });
+      } else {
+        session.on('signal:layoutTypeChange', (event) => {
+          setCSS(event.data);
+        });
+      }
+    });
   },
   streamCreated: function(event) {
     var subOptions = {
@@ -62,6 +76,17 @@ function setCSS(cssName) {
     //$( '.result' ).html( data );
     $('head').append('<link rel="stylesheet" type="text/css" href="/css/' + cssName + '.css">');
   });
+  if (session.connection.data === 'main') {
+    $.get( '/broadcast/layout/' + cssName, function( data ) {
+      session.signal({
+        type: 'layoutTypeChange',
+        data: cssName
+      })
+    })
+    .fail(function() {
+      console.log('change broadcast layout error');
+    });
+  }
 }
 
 window.addEventListener('load', function() {

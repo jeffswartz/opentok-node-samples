@@ -6,6 +6,7 @@ body {
   background-color: #ccc;
   padding: 4px 4px 4px 4px;
   font-family: "arial";
+  display: none;
 }
 #video-container {
   background-color: #222;
