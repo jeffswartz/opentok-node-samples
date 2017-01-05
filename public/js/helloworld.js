@@ -1,50 +1,65 @@
 var session = TB.initSession(sessionId);
 var frameInterval = 1; // every n seconds
 var subscribeToSelf = true;
+var video = document.querySelector('#videoElement');
+var scale = 0.5;
 
 session.on('signal:ascii', function(event) {
   if (subscribeToSelf && event.from !== session.connection) {
     return;
   }
+  writeAscii(event.data);
+});
+
+function writeAscii(txt) {
   preview = document.getElementById('subscribers');
   if (preview.firstChild) preview.removeChild(preview.firstChild);
   var asciiDiv = document.createElement('pre');
   asciiDiv.className = asciiDiv.className + ' ascii';
-  asciiDiv.textContent = event.data;
+  asciiDiv.textContent = txt;
   preview.appendChild(asciiDiv);
-});
+}
 
 session.connect(apiKey, token, function(error) {
   if (!error) {
-    publisher = OT.initPublisher('publisher', {
-      insertMode: 'append',
-      resolution: '320x240',
-      width: '100%',
-      height: '100%'
-    });
-    session.publish(publisher, function(error) {
-      sendAsciiSignal();
-      setInterval(sendAsciiSignal, 1000 * frameInterval)
-    });
+    var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia).bind(navigator);
+
+    if (getUserMedia) {
+      getUserMedia({video: true}, handleVideo, videoError);
+    }
+
+    setInterval(sendAsciiSignal, 1000 * frameInterval);
   } else {
     console.log('There was an error connecting to the session:', error.code, error.message);
   }
 });
 
+function handleVideo(stream) {
+  video.src = window.URL.createObjectURL(stream);
+}
+
+function videoError(e) {
+  console.log('video error:', e);
+}
+
 function sendAsciiSignal() {
-  var imgData = publisher.getImgData();
-  var img = document.createElement("img");
-  img.setAttribute('src', 'data:image/png;base64,' + imgData);
-  img.style.width = '20%'; img.style.height = '20%';
+  var canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth * scale;
+  canvas.height = video.videoHeight * scale;
+  canvas.getContext('2d')
+    .drawImage(video, 0, 0, canvas.width, canvas.height);
+  var img = document.createElement('img');
+  img.src = canvas.toDataURL();
+  // writeAscii(getAsciiArt(img));
   session.signal({
       data: getAsciiArt(img),
       type: 'ascii'
     },
     function(error) {
       if (error) {
-        console.log("signal error ("
+        console.log('signal error ('
                      + error.code
-                     + "): " + error.message);
+                     + '): ' + error.message);
       }
     }
   );
@@ -59,9 +74,9 @@ palette = '@#8BM*wpOxnuvcr[]{}1()|/?Il!i><+_~-;,. ';
 
 var paletteLength = palette.length;
 var canvas = document.createElement('canvas');
-var scaleFactor = .30;
+var scaleFactor = scale / 2;
 
-// See httphttp://tinyurl.com/phvnw3e
+// See http://tinyurl.com/phvnw3e
 function getAsciiArt(imgEl) {
   var context = canvas.getContext && canvas.getContext('2d');
   var height = canvas.height = imgEl.naturalHeight * scaleFactor
@@ -80,6 +95,7 @@ function getAsciiArt(imgEl) {
       var green = data.data[4 * (i * width + j) + 1];
       var blue = data.data[4 * (i * width + j) + 2];
       var gray = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 256;
+      // gray = data.data[4 * (i * width + j) + 3];
       var palletteIndex = Math.floor( gray * paletteLength);
       asciiStr = asciiStr + palette.charAt(palletteIndex);
     }
