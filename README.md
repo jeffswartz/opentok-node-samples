@@ -1,6 +1,10 @@
 # opentok-node-samples
 Some fully functioning OpenTok samples using Node and Express
 
+## FOO git-imerge test
+
+This is just a test.
+
 ## Set up
 
 Make sure you have Node.js installed.
