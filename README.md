@@ -3,7 +3,7 @@ Some fully functioning OpenTok samples using Node and Express
 
 ## FOO git-imerge test
 
-This is just a test.
+This is just a test. Really.
 
 ## Set up
 
